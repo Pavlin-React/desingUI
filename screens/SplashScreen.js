@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import * as Animatable from 'react-native-animatable';
 
 
 let {height} = Dimensions.get('screen');
@@ -19,23 +20,25 @@ const SplashScreen = ({navigation}) => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Image
+        <Animatable.Image
+          animation='bounceIn'
+          duration={5000}
           source={require('../assets/image/logo.png')}
           style={styles.logo}
         />
       </View>
-      <View style={styles.footer}>
+      <Animatable.View style={styles.footer} animation='fadeInUpBig' >
         <Text style={styles.title}>Stay connected with everyone !</Text>
         <Text style={styles.text}>Sign In with account</Text>
         <View style={styles.button} > 
-        <TouchableOpacity onPress={() => alert('clicked')}>
+        <TouchableOpacity onPress={() => navigation.navigate('SignInScreen')}>
           <LinearGradient colors={['#08d4c4', '#01ab9d']} style={styles.signIn}>
             <Text style={styles.textSign}>Get Start</Text>
             <MaterialIcons name='navigate-next' color='white' size={20} />
           </LinearGradient>
         </TouchableOpacity> 
         </View>
-      </View>
+      </Animatable.View>
     </View>
   );
 };
