@@ -10,7 +10,6 @@ import {
 import LinearGradient from 'react-native-linear-gradient';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
-onPress = {};
 
 let {height} = Dimensions.get('screen');
 
@@ -28,11 +27,14 @@ const SplashScreen = ({navigation}) => {
       <View style={styles.footer}>
         <Text style={styles.title}>Stay connected with everyone !</Text>
         <Text style={styles.text}>Sign In with account</Text>
-        <TouchableOpacity onPress={onPress}>
+        <View style={styles.button} > 
+        <TouchableOpacity onPress={() => alert('clicked')}>
           <LinearGradient colors={['#08d4c4', '#01ab9d']} style={styles.signIn}>
             <Text style={styles.textSign}>Get Start</Text>
+            <MaterialIcons name='navigate-next' color='white' size={20} />
           </LinearGradient>
-        </TouchableOpacity>
+        </TouchableOpacity> 
+        </View>
       </View>
     </View>
   );
