@@ -1,8 +1,9 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   View,
   Text,
   Button,
+  StatusBar,
   StyleSheet,
   Platform,
   TextInput,
@@ -15,28 +16,101 @@ import Feather from 'react-native-vector-icons/Feather';
 import * as Animatable from 'react-native-animatable';
 
 const SignInScreen = ({navigation}) => {
+  let [data, setData] = useState({
+    email: '',
+    password: '',
+    check_textInputChang: false,
+    secureTextEntry: true,
+  });
+
+  let textInputChange = val => {
+    if (val.length !== 0) {
+      setData({
+        ...data,
+        email: val,
+        check_textInputChang: true,
+      });
+    } else {
+      setData({
+        ...data,
+        email: '',
+        check_textInputChang: false,
+      });
+    }
+  };
+
+  let handlePasswordChange = val => {
+    setData({
+      ...data,
+      password: val,
+    });
+  };
+
+  let updateSecureTextEntry = () => {
+    setData({
+      ...data,
+      secureTextEntry: !data.secureTextEntry,
+    });
+  };
+
   return (
     <View style={styles.container}>
-      <View style={styles.header} >
-        <Text style={styles.text_header} >Welcome</Text>
+      <StatusBar barStyle='light-content' backgroundColor='#009387' />
+      <View style={styles.header}>
+        <Text style={styles.text_header}>Welcome</Text>
       </View>
-      <View style={styles.footer} >
-        <Text style={styles.text_footer} >
-          Email
-        </Text>
-        <View style={styles.action} >
-          <FontAwesome
-            name='user-o'
-            color='#05375a'
-            size={20}
-          />
+      <Animatable.View
+        animation='fadeInUpBig'
+        style={styles.footer}>
+        <Text style={styles.text_footer}>Email</Text>
+        <View style={styles.action}>
+          <FontAwesome name="user-o" color="#05375a" size={20} />
           <TextInput
-            placeholder='Your Email'
+            placeholder="Your Email"
             style={styles.textInput}
-            autoCapitalize='none'
+            autoCapitalize="none"
+            onChangeText={val => textInputChange(val)}
           />
+          {data.check_textInputChang ? (
+            <Animatable.View animation="bounceIn">
+              <Feather name="check-circle" color="green" size={20} />
+            </Animatable.View>
+          ) : null}
         </View>
-      </View>
+        <Text style={[styles.text_footer, {marginTop: 35}]}>Password</Text>
+        <View style={styles.action}>
+          <Feather name="lock" color="#05375a" size={20} />
+          <TextInput
+            placeholder="Your password"
+            secureTextEntry={data.secureTextEntry ? true : false}
+            style={styles.textInput}
+            autoCapitalize="none"
+            onChangeText={val => handlePasswordChange(val)}
+          />
+          <TouchableOpacity onPress={updateSecureTextEntry}>
+            {data.secureTextEntry ? (
+              <Feather name="eye-off" color="grey" size={20} />
+            ) : (
+              <Feather name="eye" color="grey" size={20} />
+            )}
+          </TouchableOpacity>
+        </View>
+        <View style={styles.button}>
+          <LinearGradient colors={['#08d4c4', '#01ab9d']} style={styles.signIn}>
+            <Text style={[styles.textSign, {color: 'white'}]} >Sign In</Text>
+          </LinearGradient>
+          <TouchableOpacity
+            onPress={() => navigation.navigate('SignUpScreen')}
+            style={[styles.signIn, {
+              borderColor: '#009387',
+              borderWidth: 1,
+              marginTop: 15
+            }]}
+          >
+            <Text style={[styles.textSign, {color: '#009387'}]} >Sign Up</Text>
+          </TouchableOpacity>
+        </View>
+      </Animatable.View>
     </View>
   );
 };
