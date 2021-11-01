@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { View, ActivityIndicator } from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import MainTabScreen from './screens/MainTabScreen'
@@ -12,6 +13,24 @@ import RootStackScreen from './screens/RootStackScreen'
 let Drawer = createDrawerNavigator();
 
 const App = () => {
+
+  let [isLoading, setIsLoading] = useState(true)
+  let [userToken, setUserToken] = useState(null)
+
+  useEffect(() => {
+    setTimeout(() => {
+      setIsLoading(false)
+    }, 1500);
+  }, [])
+
+  if (isLoading) {
+    return(
+      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}} >
+        <ActivityIndicator size='large' />
+      </View>
+    )
+  }
+
   return (
     <NavigationContainer>
       <RootStackScreen/>
